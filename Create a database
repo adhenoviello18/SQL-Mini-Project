@@ -1,0 +1,39 @@
+#I have created a new database
+
+Create Table Country(
+  ID_country int (10), --- Here I added a specific name to the ID column so it's not the same ID name for table 2.
+  Name varchar (25),
+  Population int (10),
+  Area int (10),
+  PRIMARY KEY (ID_country)
+);
+
+Insert into Country
+(ID_country, Name, Population, Area)
+Values
+(1, 'England', 55980000, 130279), 
+(2, 'Scotland', 5454000, 77900),
+(3, 'Wales', 3136000, 20783), 
+(4, 'N Ireland', 1885000, 14139);
+
+Create Table City(
+  ID_city int (10), -- same for here I changed the ID name
+  Name varchar (25),
+  ID_country int (10),
+  Population int (10),
+  PRIMARY KEY (ID_city)
+  FOREIGN KEY (ID_country) REFERENCES Country (ID_country)
+);
+
+
+INSERT INTO City
+(ID_city, Name, ID_country, Population)
+VALUES 
+(1, 'London','England', 8982000),
+(2, 'Edinburgh','Scotland', 554000),
+(3, 'Cardiff','Wales', 488000),
+(4, 'Belfast','N Ireland', 643000);
+
+SELECT * FROM Country; ----- # I used SELECT statement to specify which columns from the origins dataset I want to return. 
+
+SELECT * FROM City;
