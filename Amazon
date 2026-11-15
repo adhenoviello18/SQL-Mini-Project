@@ -1,0 +1,139 @@
+CREATE DATABASE amazon;
+
+CREATE TABLE customer (
+	CustomerID INT,
+	FirstName VARCHAR(50),
+    LastName VARCHAR(50), 
+    Email VARCHAR(100),
+    Phone VARCHAR(20), 
+    Address VARCHAR(255),
+    RegistrationDate DATE, 
+    LoyaltyPoints INT,
+	PRIMARY KEY (CustomerID)
+);
+
+insert into customer values ('1', 'James', 'Cole', 'jcole@example.com', '0123456789', '111 Fake Street', '2023-01-01', '10'),
+							('2', 'Andrew', 'philips', 'Aphilip@example.com', '0187456789', '112 Fake Street', '2023-01-04', '3'),
+							('3','Aragorn','Strider','Aragorn@example.com','0766783321','221 Baker street','2020-10-12','100'),
+                            ('4', 'Mason', 'Mount', 'Mmason@example.com', '0987654321', '10 Circle Lane', '2020-09-10', '45'),
+                            ('5', 'David', 'Johnson', 'Djohnson@example.com', '0234567890', '12 Square street', '2021-03-01', '50'),
+                            ('6', 'Chloe', 'Paper', 'Cpaper@example.com', '0785463421', '90 Rectangle Lane', '2022-09-01', '60'),
+                            ('7', 'Michael', 'Jackson', 'Mjackson@example.com', '078563452', '11 Oval Street', '2022-01-01', '70'),
+                            ('8', 'Samuel', 'Evans', 'Sevans@example.com', '0897678910', '23 Germany Lane', '2021-10-11', '30'), 
+                            ('9', 'Sally', 'Lester', 'Slester@example.com', '0123454321', '76 Duke Road', '2022-11-12', '80'), 
+                            ('10', 'Jessica', 'Harris', 'Jharris@example.com', '0564325678', '81 The Chase', '2023-09-18', '50')
+                            ;
+
+CREATE TABLE product (
+	ProductID INT, 
+    ProductName VARCHAR(100),
+    ProductDescription VARCHAR(100),
+    Price DECIMAL(10, 2),
+    StockQuantity INT,
+	Weight FLOAT, 
+    Dimensions VARCHAR(100),
+    PRIMARY KEY (ProductID)
+);
+Insert into product values  ('1', 'Textbook', 'Modules', '50', '10', '15', '100'),
+							('2', 'DVDs', 'Genre', '25', '20', '5', '10'),
+                            ('3', 'Baby Products', 'Formulae', '5', '30', '10', '15'),
+                            ('4', 'Groceries', 'Foodstuff', '10', '40', '40', '50'),
+                            ('5', 'Gourmet Foods', 'Menu', '15', '50', '20', '5'),
+                            ('6', 'Musical Items', 'Instruments', '25', '60', '20', '45'),
+                            ('7', 'Garden Items', 'Outdoor Activities', '10', '70', '95', '150'),
+                            ('8', 'Clothing', 'Adult Clothing', '18', '80', '2', '30'),
+                            ('9', 'Tools', 'Equipment', '8', '20', '25', '90'),
+                            ('10', 'Games', 'Kids Section', '20', '100', '5', '3')
+							;
+CREATE TABLE Orders (
+	OrderID INT,
+    OrderDate DATE,
+    ShippingAddress VARCHAR(100),
+    PaymentMethod VARCHAR(100),
+    OrderStatus VARCHAR(100),
+    TotalAmount DECIMAL(10,2),
+    TaxAmount DECIMAL(10,2),
+    ShippingFee DECIMAL (10,2),
+    CustomerID INT,
+    ProductID INT,
+    PRIMARY KEY (OrderID),
+	FOREIGN KEY (customerID) REFERENCES customer(customerID),
+	FOREIGN KEY (productID) REFERENCES product(productID)
+);
+Insert into Orders values	('1', '2023-01-01', '123 Main Road', 'Visa', 'Delivered', '100.00', '5.00', '1.00', '10', '9'),
+							('2', '2023-01-10', '456 Hello Lane', 'Mastercard', 'Pending', '200.00', '10.00', '2.00', '8', '7'),
+                            ('3', '2023-01-20', '555 Goodbye Grove','Mastercard', 'Shipped', '300.00', '15.00', '3.00', '6', '5'), 
+                            ('4', '2023-02-01', '333 White Road', 'PayPal', 'Delivered', '400.00', '20.00', '4.00', '4', '3'),
+                            ('5', '2023-02-10', '444 Black Street', 'Visa', 'Processing', '500.00', '25.00', '5.00', '2', '1'),
+                            ('6', '2023-02-20', '777 Green Road', 'Cheque', 'Delivered', '600.00', '30.00', '6.00', '9', '8'),
+                            ('7', '2023-03-01', '232 Yellow Brick Road', 'Visa', 'Shipped', '700.00', '35.00', '7.00', '7', '6'),
+                            ('8', '2023-06-15', '545 Orange Road',  'PayPal', 'Processing', '800.00', '40.00', '8.00', '5', '4'),
+                            ('9', '2023-07-28', '322 Purple Lane', 'Visa', 'Shipped', '900.00', '50.00', '9.00', '3', '2'), 
+                            ('10', '2023-09-18', '18 Chelsea Road', 'Mastercard', 'Delivered', '101.00', '55.00', '10.00', '1', '10')
+							;
+
+CREATE TABLE OrdersItems (
+	OrdersItemsID INT,
+    Quantity INT, 
+    Subtotal DECIMAL(10,2),
+    OrderID INT,
+    ProductID INT,
+    PRIMARY KEY (OrdersItemsID),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+Insert into OrdersItems values	('1', '2', '100.00', '2', '3'),
+								('2', '3', '150.00', '4', '5'),
+                                ('3', '1', '50.00', '6', '7'),
+                                ('4', '5', '200.00', '8', '9'),
+                                ('5', '6', '250.00', '10', '1'),
+                                ('6', '4', '100.00', '9', '8'),
+                                ('7', '8', '300.00', '7', '6'),
+                                ('8', '7', '350.00', '5', '4'),
+                                ('9', '10', '400.00', '3', '2'),
+                                ('10', '9', '450.00', '1', '10')
+                                ;
+
+CREATE TABLE vendor (
+	VendorID INT,
+    VendorName VARCHAR(100),
+    ContactName VARCHAR(100),
+    VendorEmail VARCHAR(100),
+    Phone VARCHAR(20),
+    Address VARCHAR(100),
+    ProductID INT,
+    PRIMARY KEY (VendorID), 
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+Insert into vendor values	('1', 'Acme', 'John Doe', 'johndoe@acme.com', '555-111-1111', '11 Eleven Road', '10'),
+							('2', 'Blockbuster', 'Jane Smith', 'janesmith@blockbuster.com', '555-222-2222', '12 Twelve Street', '9'),
+                            ('3', 'Tools R Us', 'Peter Jones', 'peterjones@toolsrus.com', '555-333-3333', '13 Thirteen Lane', '8'), 
+                            ('4', 'Office Supplies Depot', 'Mary Brown', 'marybrown@suppliesdepot.com', '555-444-4444', '14 Fourteen Road', '7'),
+                            ('5', 'Books n That', 'David Lee', 'davidlee@booksnthat.com', '555-555-5555', '15 Fifteen Road', '6'),
+                            ('6', 'Electronics Express', 'Susan Johnson', 'susanjohnson@electronicsexpress.com', '555-666-6666', '16 Sixteen Lane', '5'),
+                            ('7', 'Software Solutions Inc', 'Mike Wilson', 'mike.wilson@softwaresolution.com', '555-777-7777', '17 Seventeen Road', '4'),
+                            ('8', 'Home Speed', 'Sarah Parker', 'sarahparker@homespeed.com', '555-888-8888', '18 Eighteen Lane', '3'),
+                            ('9', 'Gardening Supplies Plus', 'Tom Jones', 'tomjones@gardeningsuppliesplus.com', '555-999-9999', '19 Nineteen Avenue', '2'),
+                            ('10', 'Babyloves', 'Amanda Nowell', 'amandanowell@babynowell.com', '555-100-1001', '20 Twenty Road', '1')
+                            ;
+                            
+CREATE TABLE review (
+		ReviewID INT,
+        Rating INT, 
+        ReviewText TEXT, 
+        ReviewDate DATE,
+        ProductID INT, 
+        PRIMARY KEY (ReviewID),
+        FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+Insert into review values	('1', '5', 'This product is excellent!', '2023-01-01', '10'),
+							('2', '4', 'This product is good', '2023-02-02', '9'),
+                            ('3', '3', 'This product is okay', '2023-03-03', '8'), 
+                            ('4', '2', 'This product is bad', '2023-04-04', '7'),
+                            ('5', '1', 'This product is awful!', '2023-05-05', '6'),
+                            ('6', '5', 'This product is amazing!', '2023-06-06', '5'),
+                            ('7', '4', 'This product is pretty good', '2023-07-07', '4'), 
+                            ('8', '3', 'This product is average', '2023-08-08', '3'), 
+                            ('9', '2', 'This product is not good', '2023-09-09', '2'),
+                            ('10', '1', 'This product is terrible!', '2023-10-10', '1')
+                            ;
