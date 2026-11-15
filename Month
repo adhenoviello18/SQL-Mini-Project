@@ -1,0 +1,11 @@
+select p.ProductName, p.ProductDescription, o.*
+from orders o
+join product p 
+on o.ProductID = p.ProductID
+where p.ProductName = 'Groceries';
+
+select p.ProductID, p.ProductName, p.ProductDescription, Avg(r.Rating) AS average_rating
+FROM review r
+join product p 
+on r.ProductID = p.ProductID
+GROUP by 1,2,3
